@@ -129,6 +129,7 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(377, 26);
             this.textBox5.TabIndex = 14;
+            this.textBox5.TextChanged += new System.EventHandler(this.textBox5_TextChanged_1);
             // 
             // label5
             // 
@@ -144,11 +145,11 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Maiandra GD", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Font = new System.Drawing.Font("Segoe Script", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label6.Location = new System.Drawing.Point(133, 34);
+            this.label6.Location = new System.Drawing.Point(123, 25);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(208, 48);
+            this.label6.Size = new System.Drawing.Size(247, 64);
             this.label6.TabIndex = 15;
             this.label6.Text = "Modificare";
             // 
@@ -168,7 +169,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.PaleVioletRed;
+            this.BackColor = System.Drawing.Color.LightPink;
             this.ClientSize = new System.Drawing.Size(477, 580);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label6);
@@ -182,9 +183,12 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form3";
-            this.Text = "Form3";
+            this.Text = "Modificare";
+            this.Load += new System.EventHandler(this.Form3_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

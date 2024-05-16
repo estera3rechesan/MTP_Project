@@ -11,10 +11,12 @@ namespace Proiect_MTP
         public Form4()
         {
             InitializeComponent();
+            //evenimentele pentru drag and drop
             this.listBox1.DragDrop += new DragEventHandler(this.listBox1_DragDrop);
             this.listBox1.DragEnter += new DragEventHandler(this.listBox1_DragEnter);
         }
 
+        //extragere
         private void listBox1_DragDrop(object sender, DragEventArgs e)
         {
             string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
@@ -23,6 +25,7 @@ namespace Proiect_MTP
                 listBox1.Items.Add(s[i]);
         }
 
+        //verificare date extrase
         private void listBox1_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -31,29 +34,23 @@ namespace Proiect_MTP
                 e.Effect = DragDropEffects.None;
         }
 
+        //SALVARE
         private void button2_Click(object sender, EventArgs e)
         {
             using (SaveFileDialog dialog = new SaveFileDialog())
             {
-                // Setează filtre pentru tipurile de fișiere acceptate (de exemplu, imagini)
                 dialog.Filter = "Imagini (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|Toate fișierele (*.*)|*.*";
-                dialog.FilterIndex = 1; // Setează filtrul implicit
+                dialog.FilterIndex = 1; //primul filtu e implicit
 
-                // Arată dialogul de salvare
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    // Obține calea de salvare a directorului selectat de utilizator
                     string saveDirectory = Path.GetDirectoryName(dialog.FileName);
-
-                    // Verifică dacă lista de imagini nu este goală
                     if (listBox1.Items.Count > 0)
                     {
-                        // Iterează prin fiecare element din lista de imagini
                         foreach (string imagePath in listBox1.Items)
                         {
                             try
                             {
-                                // Copiază fișierele selectate în directorul de salvare
                                 string fileName = Path.GetFileName(imagePath);
                                 File.Copy(imagePath, Path.Combine(saveDirectory, fileName), true);
                             }
@@ -73,5 +70,35 @@ namespace Proiect_MTP
             }
         }
 
+
+        //SALVARE IN LOCATIE IMPLICITA
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string saveDirectory = @"C:\Documente\Facultate an 2 sem 2\Lab MTP\PROIECT\Proiect_MTP\assets";
+            if (listBox1.Items.Count > 0)
+            {
+                foreach (string imagePath in listBox1.Items)
+                {
+                    try
+                    {
+                        string fileName = Path.GetFileName(imagePath);
+                        File.Copy(imagePath, Path.Combine(saveDirectory, fileName), true);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Eroare la salvarea imaginii {Path.GetFileName(imagePath)}: {ex.Message}");
+                    }
+                }
+                MessageBox.Show("Imaginile au fost salvate cu succes.", "Succes", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+                MessageBox.Show("Lista de imagini este goală. Nu există imagini de salvat.", "Avertisment", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void Form4_Load(object sender, EventArgs e)
+        {
+
+        }
     }
+
 }

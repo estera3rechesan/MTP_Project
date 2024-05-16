@@ -20,29 +20,48 @@ namespace Proiect_MTP
             par = parola;
             InitializeComponent();
         }
+        
+        private void Form2_Load(object sender, EventArgs e)
+        {
+            string connect = @"Data Source=Esty\SQLEXPRESS;Initial Catalog=Ferma;Integrated Security=True";
+            SqlConnection cnn = new SqlConnection(connect);
+            cnn.Open();
+            string tabel_date = "select * from Animale";
+            SqlDataAdapter da = new SqlDataAdapter(tabel_date, connect);
+            DataSet ds = new DataSet();
+            da.Fill(ds, "Animale");
+            dataGridView1.DataSource = ds.Tables["Animale"].DefaultView;
+            cnn.Close();
+        }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
 
+        // CAUTARE
         private void button4_Click(object sender, EventArgs e)
         {
             string connect = @"Data Source=Esty\SQLEXPRESS;Initial Catalog=Ferma;Integrated Security=True";
             SqlConnection con = new SqlConnection(connect);
             con.Open();
+
             string stmt = "select * from animale where nume='" + textBox1.Text + "'";
             SqlDataAdapter da = new SqlDataAdapter(stmt, con);
             DataSet ds = new DataSet();
             da.Fill(ds, "Animale");
+
             dataGridView1.DataSource = ds.Tables["Animale"].DefaultView;
+
             con.Close();
             da.Dispose();
             ds.Dispose();
         }
 
+        //CASUTA DE TEXT
         private void textBox1_TextChanged(object sender, EventArgs e)
         { 
+            //incepe cu litera mare si are doar litere
             string nume = textBox1.Text;
             if (!char.IsUpper(nume[0]))
             {
@@ -55,10 +74,11 @@ namespace Proiect_MTP
 
         }
 
+        // STERGERE
         private void button3_Click(object sender, EventArgs e)
         {
-            // Asigurați-vă că utilizatorul confirmă ștergerea înainte de a continua
             DialogResult result = MessageBox.Show("Sigur doriți să ștergeți numele introdus din baza de date?", "Confirmare ștergere", MessageBoxButtons.YesNo);
+            
             if (result == DialogResult.Yes)
             {
                 string connect = @"Data Source=Esty\SQLEXPRESS;Initial Catalog=Ferma;Integrated Security=True";
@@ -84,27 +104,13 @@ namespace Proiect_MTP
             }
         }
 
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-            string nume = textBox1.Text;
-            if (!char.IsUpper(nume[0]))
-            {
-                MessageBox.Show("Numele trebuie sa inceapa cu litera mare");
-            }
-            else if (!nume.All(char.IsLetter))
-            {
-                MessageBox.Show("Numele trebuie sa contina doar litere");
-            }
-        }
-
+        //MODIFICARE
         private void button2_Click(object sender, EventArgs e)
         {
             string numeAnimal = textBox1.Text;
             if (!string.IsNullOrWhiteSpace(numeAnimal))
             {
-                // Deschideți Form3 și transmiteți numele animalului către acesta
-                Form3 form3 = new Form3(numeAnimal);
+                Form3 form3 = new Form3(numeAnimal); //transmitere nume catre Form3
                 form3.ShowDialog();
             }
             else
@@ -113,13 +119,11 @@ namespace Proiect_MTP
             }
         }
 
+        //RELOAD
         private void button1_Click(object sender, EventArgs e)
         {
-            // Redeschideți Form2 cu aceleași informații nume și parolă
             Form2 form2 = new Form2(num, par);
             form2.Show();
-
-            // Închideți formularul actual (Form2)
             this.Close();
         }
 
@@ -128,23 +132,24 @@ namespace Proiect_MTP
             this.Close();
         }
 
+        //INCARCARE FISIERE
         private void button5_Click_1(object sender, EventArgs e)
         {
            Form4 form4 = new Form4();
            form4.ShowDialog();
         }
 
-        private void Form2_Load(object sender, EventArgs e)
+        private void button7_Click(object sender, EventArgs e)
         {
-            string connect = @"Data Source=Esty\SQLEXPRESS;Initial Catalog=Ferma;Integrated Security=True";
-            SqlConnection cnn = new SqlConnection(connect);
-            cnn.Open();
-            string tabel_date = "select * from Animale";
-            SqlDataAdapter da = new SqlDataAdapter(tabel_date, connect);
-            DataSet ds = new DataSet();
-            da.Fill(ds, "Animale");
-            dataGridView1.DataSource = ds.Tables["Animale"].DefaultView;
-            cnn.Close();
+            Form5 form5 = new Form5();
+            form5.ShowDialog();
         }
+
+        //CLOSE
+        private void button6_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
     }
 }

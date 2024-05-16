@@ -9,25 +9,27 @@ namespace Proiect_MTP
 {
     public partial class Form1 : Form
     {
-        // Definim o structură pentru a stoca perechile de nume utilizator și parolă
-        private Dictionary<string, string> new_obj = new Dictionary<string, string>();
+        private Dictionary<string, string> new_obj = new Dictionary<string, string>(); //structura cu perechile user-parola
 
         public Form1()
         {
             InitializeComponent();
-            // Încărcăm datele utilizatorilor și parolelor la pornirea formularului
-            IncarcaUtilizatoriSiParole("C:\\Documente\\ProiectMTP.csv");
+            IncarcaUtilizatoriSiParole("users.csv");
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string nume = comboBox1.Text;
+            string nume = textBox.Text;
             string parola = textBox1.Text;
 
-            // Verificăm dacă utilizatorul introdus există în colectie și parola corespunde
             if (new_obj.ContainsKey(nume) && new_obj[nume] == parola)
             {
-                MessageBox.Show("Autentificare reușită!");
+                //MessageBox.Show("Autentificare reușită!");
                 Form2 f = new Form2(nume, parola);
                 f.ShowDialog();
                 this.Hide();
@@ -38,7 +40,6 @@ namespace Proiect_MTP
             }
         }
 
-        // Metodă pentru încărcarea datelor utilizatorilor și parolelor din fișierul specificat
         private void IncarcaUtilizatoriSiParole(string caleFisier)
         {
             try
@@ -53,22 +54,7 @@ namespace Proiect_MTP
                         string numeUtilizator = elemente[0];
                         string parola = elemente[1];
 
-                        // Verificăm dacă parola aflata in fisier respectă cerințele: minim 8 caractere, o literă mare, o literă mică, o cifră și un caracter special
-                        bool parolaValida = parola.Length >= 8 &&
-                                            parola.Any(char.IsUpper) &&
-                                            parola.Any(char.IsLower) &&
-                                            parola.Any(char.IsDigit) &&
-                                            parola.Intersect("!@#$%^&*.,'").Any();
-
-                        if (parolaValida)
-                        {
-                            // Adăugăm numele de utilizator și parola asociată în dicționar
-                            new_obj[numeUtilizator] = parola;
-                        }
-                        else
-                        {
-                            MessageBox.Show($"Parola pentru utilizatorul {numeUtilizator} nu este validă și nu a fost adăugată.");
-                        }
+                        new_obj[numeUtilizator] = parola;
                     }
                 }
             }
@@ -78,10 +64,18 @@ namespace Proiect_MTP
             }
         }
 
-
         private void button2_Click_1(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form6 signUp = new Form6();
+            signUp.FormClosed += (s, args) => this.Close();
+            signUp.Show();
         }
     }
 }
